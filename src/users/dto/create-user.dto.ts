@@ -11,6 +11,10 @@ export class CreateUserDto {
 
     @IsNotEmpty()
     @IsString()
+    username: string;
+
+    @IsNotEmpty()
+    @IsString()
     name: string;
     
     @IsEmail()
@@ -18,5 +22,9 @@ export class CreateUserDto {
 
     @IsEnum(Role, { message: 'role must be a valid enum value' })
     role: Role;
+
+    @IsNotEmpty()
+    @IsString()
+    password: string;
 }
 

@@ -5,9 +5,10 @@ import { NotFoundException } from '@nestjs/common';
 @Injectable()
 export class UsersService {
     private users = [
-        { id: 1, name: 'Alice', email: 'alice@test.com' ,role: 'ADMIN' },
-        { id: 2, name: 'Bob',email: 'bob@test.com' , role: 'ENGINEER' },
-        { id: 3, name: 'Charlie',email: 'charlie@test.com' , role: 'INTERN' },
+        { id: 1, username:'alice', name: 'Alice', email: 'alice@test.com' ,role: 'ADMIN', password: '123456'},
+        { id: 2, username:'bob',name: 'Bob',email: 'bob@test.com' , role: 'ENGINEER', password: '123456'},
+        { id: 3, username:'manhpd',name: 'Charlie',email: 'charlie@test.com' , role: 'INTERN', password:'123456' },
+        { id: 4, username:'manhpd',name: 'Manh',email: 'manhpd@test.com', role: 'ADMIN', password: '123456'}
     ];
 
     findAll(role?: Role) {
@@ -29,6 +30,13 @@ export class UsersService {
         return user;
     }
 
+    findOneByUserName(username: string) {
+        const user = this.users.find(user => user.username === username);   
+        if (!user) {
+            throw new NotFoundException(`User with username ${username} not found`);
+        }
+        return user;
+    }
     create(createUserDto: CreateUserDto ) {
         const userWithMaxId = this.users.reduce((prev, current) => (prev.id > current.id) ? prev : current) ;
         const id = userWithMaxId ? userWithMaxId.id + 1 : 1;

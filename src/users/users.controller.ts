@@ -1,8 +1,11 @@
-import { Body, Controller, Delete, Get, Param, ParseEnumPipe, ParseIntPipe, Patch, Post, Query, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseEnumPipe, ParseIntPipe, Patch, Post, Query, SetMetadata, UseGuards, ValidationPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto, Role } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 
+export const IS_PUBLIC_KEY = 'isPublic';
+export const Public = () => SetMetadata(IS_PUBLIC_KEY, true);
 @Controller('users')
 export class UsersController {
     constructor(private readonly usersService: UsersService) {}
@@ -11,7 +14,6 @@ export class UsersController {
     @Get()
     findAll(@Query('role') role?: Role): any[] {
         return this.usersService.findAll(role);
-
     }
 
     @Get(':id')
